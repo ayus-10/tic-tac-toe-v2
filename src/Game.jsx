@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./Game.module.css";
 
-const Game = () => {
+const Game = ({ setTurn }) => {
   const getArray = (elements) => {
     return Array.from({ length: 9 }).fill(elements);
   };
@@ -15,11 +15,30 @@ const Game = () => {
   const turn = useRef(0);
   const switchTurn = () => {
     turn.current = 1 - turn.current;
+    if (turn.current === 0) {
+      setTurn("X");
+    } else {
+      setTurn("O");
+    }
   };
 
   const handleInvalidMove = () => {
     alert("Invalid move");
     switchTurn();
+  };
+
+  const endGame = (message) => {
+    alert(message);
+    location.reload();
+  };
+
+  const checkDraw = () => {
+    const gameBoardOnes = gameBoard.filter((item) => {
+      return item !== null;
+    });
+    if (gameBoardOnes.length >= 8) {
+      endGame("Its a tie!");
+    }
   };
 
   const [xState, setXState] = useState(getArray(0));
@@ -45,11 +64,6 @@ const Game = () => {
   };
 
   const checkWinner = () => {
-    const declareWinner = (player) => {
-      alert(`${player} Won`);
-      location.reload();
-    };
-
     const wins = [
       [0, 1, 2],
       [3, 4, 5],
@@ -63,11 +77,13 @@ const Game = () => {
 
     wins.forEach((win, index) => {
       if (xState[win[0]] + xState[win[1]] + xState[win[2]] === "111") {
-        declareWinner("X");
+        endGame("X won the game!");
       } else if (oState[win[0]] + oState[win[1]] + oState[win[2]] === "111") {
-        declareWinner("O");
+        endGame("O won the game!");
       }
     });
+
+    checkDraw();
   };
 
   useEffect(() => {
