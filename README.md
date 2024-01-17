@@ -2,8 +2,6 @@
 
 A GUI Tic Tac Toe game created using React JS that can be played by two people.
 
-![Demo Image](https://www.aayushupreti.com.np/assets/tictactoe-10692f5c.png)
-
 # Installation
 
 1. First make sure that you have **npm** and **Node JS** installed.
